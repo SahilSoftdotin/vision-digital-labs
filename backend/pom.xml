@@ -12,7 +12,7 @@
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>backend</name>
-	<description>Vision Digital Labs backend API</description>
+	<description>Vision Digital Lab backend API</description>
 	<url/>
 	<licenses>
 		<license/>

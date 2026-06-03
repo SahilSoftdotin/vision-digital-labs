@@ -33,9 +33,9 @@ const TIMELINE = [
 
 const TEAM = [
   { name: "Alex Rivera", role: "Founder & CEO" },
-  { name: "Priya Nair", role: "Head of Design" },
-  { name: "Marcus Lee", role: "Head of Engineering" },
-  { name: "Sofia Bianchi", role: "Head of AI" },
+  { name: "Kanika", role: "Head of Design" },
+  { name: "Sahil Arora", role: "Head of Engineering" },
+  { name: "Nikhil", role: "Head of AI" },
 ];
 
 const WHY = [
@@ -89,7 +89,7 @@ export function AboutContent({
           />
           <div className="space-y-4 text-lg leading-relaxed text-fg-muted">
             <p>
-              Vision Digital Labs began with a simple conviction: most digital products
+              Vision Digital Lab began with a simple conviction: most digital products
               underdeliver because they&apos;re built without enough care for
               speed, design and the people using them.
             </p>
@@ -236,7 +236,7 @@ export function AboutContent({
             title={
               <>
                 Reasons teams pick{" "}
-                <span className="text-gradient">Vision Digital Labs</span>
+                <span className="text-gradient">Vision Digital Lab</span>
               </>
             }
             description="We combine senior talent, transparent process and a relentless focus on outcomes."

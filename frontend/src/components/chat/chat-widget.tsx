@@ -25,7 +25,7 @@ export function ChatWidget() {
       id: nextId(),
       role: "assistant",
       content:
-        "Hi! I'm Vision Digital Labs' assistant 👋 Ask me about services, pricing, or book a free consultation.",
+        "Hi! I'm Vision Digital Lab's assistant 👋 Ask me about services, pricing, or book a free consultation.",
     },
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);

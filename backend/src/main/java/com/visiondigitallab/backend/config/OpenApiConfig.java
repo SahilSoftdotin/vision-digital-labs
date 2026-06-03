@@ -17,8 +17,8 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Vision Digital Labs API")
-                                .description("Backend API for the Vision Digital Labs website")
+                                .title("Vision Digital Lab API")
+                                .description("Backend API for the Vision Digital Lab website")
                                 .version("v1")
                                 .license(new License().name("Proprietary")))
                 .components(

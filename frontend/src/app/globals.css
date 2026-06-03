@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ----------------------------------------------------------------------------
-   Vision Digital Labs — design tokens
+   Vision Digital Lab — design tokens
    Brand palette lives here once; mapped into Tailwind via @theme below.
 ---------------------------------------------------------------------------- */
 :root {

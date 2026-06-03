@@ -389,7 +389,7 @@ public class DataSeeder implements CommandLineRunner {
                                 .role("VP Product")
                                 .company("NovaPay")
                                 .quote(
-                                        "Vision Digital Labs rebuilt our checkout in 12 weeks and recovered millions in revenue. The most senior, low-drama team we've worked with.")
+                                        "Vision Digital Lab rebuilt our checkout in 12 weeks and recovered millions in revenue. The most senior, low-drama team we've worked with.")
                                 .rating(5)
                                 .displayOrder(1)
                                 .build(),
@@ -407,7 +407,7 @@ public class DataSeeder implements CommandLineRunner {
                                 .role("Founder & CEO")
                                 .company("EstateX")
                                 .quote(
-                                        "We launched our MVP in 9 weeks and raised our seed round off the back of it. Vision Digital Labs felt like a true product partner, not a vendor.")
+                                        "We launched our MVP in 9 weeks and raised our seed round off the back of it. Vision Digital Lab felt like a true product partner, not a vendor.")
                                 .rating(5)
                                 .displayOrder(3)
                                 .build(),

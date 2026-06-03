@@ -4,11 +4,11 @@
  * everything else reads from this file.
  */
 export const siteConfig = {
-  name: "Vision Digital Labs",
+  name: "Vision Digital Lab",
   shortName: "Vision",
   tagline: "Building Future-Ready Digital Experiences",
   description:
-    "Vision Digital Labs redesigns, modernizes and builds high-performance digital products — web apps, AI integrations, SaaS and mobile — for ambitious businesses across the US, Canada and Europe.",
+    "Vision Digital Lab redesigns, modernizes and builds high-performance digital products — web apps, AI integrations, SaaS and mobile — for ambitious businesses across the US, Canada and Europe.",
   url: "https://visiondigitallab.com",
   ogImage: "/og.png",
   email: "hello@visiondigitallab.com",

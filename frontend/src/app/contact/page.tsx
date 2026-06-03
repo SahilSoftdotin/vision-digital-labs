@@ -9,7 +9,7 @@ import { ContactForm } from "@/components/forms/contact-form";
 export const metadata: Metadata = pageMeta({
   title: "Contact",
   description:
-    "Start a project with Vision Digital Labs. Tell us about your goals and we'll map the fastest path to results — typically replying within one business day.",
+    "Start a project with Vision Digital Lab. Tell us about your goals and we'll map the fastest path to results — typically replying within one business day.",
   path: "/contact",
 });
 

@@ -8,7 +8,7 @@ import { CtaBand } from "@/components/sections/cta-band";
 export const metadata: Metadata = pageMeta({
   title: "About",
   description:
-    "Vision Digital Labs is a senior, remote-first digital studio building future-ready products. Our story, mission, values, leadership and why teams choose us.",
+    "Vision Digital Lab is a senior, remote-first digital studio building future-ready products. Our story, mission, values, leadership and why teams choose us.",
   path: "/about",
 });
 

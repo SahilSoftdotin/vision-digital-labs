@@ -1,9 +1,9 @@
-# Vision Digital Labs — Future-Ready Digital Agency
+# Vision Digital Lab — Future-Ready Digital Agency
 
 A premium, futuristic, AI-enabled digital-agency website targeting enterprise &
 SMB clients in the US, Canada, and Europe.
 
-**Brand:** Vision Digital Labs · **Domain:** https://visiondigitallab.com
+**Brand:** Vision Digital Lab · **Domain:** https://visiondigitallab.com
 
 > This README is the living source of truth for the project. Keep the
 > **Architecture**, **Routes & API**, and **Status** sections updated as the
