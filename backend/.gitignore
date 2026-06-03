@@ -1,5 +1,9 @@
 HELP.md
 target/
+
+# Local secrets — Spring Boot auto-loads ./config/ but we never commit it
+/config/
+.env
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
