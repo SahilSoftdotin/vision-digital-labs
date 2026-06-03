@@ -31,13 +31,15 @@ SMB clients in the US, Canada, and Europe.
 | Area | State |
 |------|-------|
 | Frontend (Next.js) | ✅ Built & verified — all pages, animations, chatbot UI, booking modal, SEO |
-| Mock API (Next route handlers) | ✅ Built — stands in for the backend |
-| Backend (Spring Boot) | ⏳ Planned — next milestone |
-| Admin dashboard | ⏳ Planned |
-| Docker / CI-CD | ⏳ Planned |
-| Real AI (OpenAI) chat | ⏳ Interface ready, provider stubbed |
+| Mock API (Next route handlers) | ✅ Built — frontend runs standalone on it |
+| Backend (Spring Boot) | ✅ Built — REST API, JPA, JWT auth, seed data, Swagger. Needs a Postgres connection to run |
+| Admin endpoints (JWT, role-based) | ✅ Built — leads + content CRUD |
+| Docker | ✅ Dockerfile + docker-compose provided (Docker not yet installed locally) |
+| CI-CD | ⏳ Planned |
+| Real AI (OpenAI) chat | ⏳ Interface ready (strategy pattern), provider stubbed both sides |
 
-Production build: **34 routes** generate cleanly; routes + APIs smoke-tested green.
+Frontend: **34 routes** build clean. Backend: compiles, packages to a runnable jar, tests green (H2).
+Local prerequisites still open: **Java 21** (using 17 for now), **Docker**, and a **managed Postgres** (Neon/Supabase) connection string to boot the backend.
 
 ---
 
@@ -49,9 +51,10 @@ Production build: **34 routes** generate cleanly; routes + APIs smoke-tested gre
 - Framer Motion · GSAP · Three.js via `@react-three/fiber` + `drei` (lazy, hero only)
 - React Hook Form + Zod · `next-themes` · lucide-react
 
-**Backend (planned)**
-- Java 21 · Spring Boot 3.5 · Spring Security (JWT) · Spring Data JPA
-- PostgreSQL · Redis · Docker
+**Backend (built)**
+- Java 17 (spec target 21) · Spring Boot 3.5.14 · Spring Security + JWT (jjwt)
+- Spring Data JPA · PostgreSQL · in-memory cache (Redis-ready) · springdoc OpenAPI/Swagger
+- Layered: Controller → Service → Repository, DTO pattern, global exception handling
 
 ---
 
@@ -69,7 +72,19 @@ future-agency/
    │  └─ data/          # fixtures: services, case studies, testimonials, stats
    ├─ .env.local.example
    └─ package.json
-# backend/  (added in the next milestone)
+└─ backend/             # Spring Boot API (Java 17, Maven wrapper)
+   ├─ src/main/java/com/visiondigitallab/backend/
+   │  ├─ domain/        # JPA entities (+ enums, embeddables)
+   │  ├─ repository/    # Spring Data repositories
+   │  ├─ dto/           # request/response records
+   │  ├─ mapper/        # entity → DTO mapping
+   │  ├─ service/       # business logic (+ chat/ provider strategy)
+   │  ├─ web/           # REST controllers + GlobalExceptionHandler
+   │  ├─ security/      # JWT service, filter, user details
+   │  └─ config/        # security, CORS, cache, OpenAPI, data seeder
+   ├─ src/main/resources/application.yml
+   ├─ Dockerfile · .env.example
+   └─ pom.xml
 ```
 
 ### Key directories (frontend)
@@ -176,6 +191,20 @@ transparently.
 | POST | `/api/v1/chat/lead` | Capture chat lead | `chatLeadSchema` |
 | POST | `/api/v1/chat/book-call` | Book a call via chatbot | `consultationSchema` |
 
+**Backend-only endpoints (Spring Boot):**
+
+| Method | Endpoint | Purpose | Auth |
+|--------|----------|---------|------|
+| POST | `/api/v1/auth/login` | Log in, returns JWT + user | public |
+| GET | `/api/v1/auth/me` | Current user | JWT |
+| GET | `/api/v1/admin/contacts` · `/consultations` · `/chat-leads` | List leads | JWT |
+| POST/PUT | `/api/v1/admin/services` · `/casestudies` · `/testimonials` | Create/update content | JWT |
+| DELETE | `/api/v1/admin/{type}/{id}` | Delete content | JWT + **ADMIN** |
+
+Swagger UI (when backend is running): `http://localhost:8080/swagger-ui.html`.
+The mock (Next) and real (Spring Boot) APIs share the public `/api/v1` contract,
+so the frontend works against either by setting `NEXT_PUBLIC_API_URL`.
+
 **Example**
 ```bash
 curl http://localhost:3000/api/v1/services
@@ -227,6 +256,33 @@ switch over.
 
 > Requires Node 18.18+ (developed on Node 26).
 
+### Backend (Spring Boot)
+
+```bash
+cd backend
+# 1. Configure DB + secrets (copy and edit)
+cp .env.example .env        # set SPRING_DATASOURCE_* to your Neon/Supabase URL
+
+# 2. Run (Maven wrapper — no Maven install needed). Pass env vars however you like:
+#    PowerShell: $env:SPRING_DATASOURCE_URL="..."; ./mvnw spring-boot:run
+./mvnw spring-boot:run        # starts on http://localhost:8080
+
+./mvnw -DskipTests package    # build runnable jar (target/backend-0.0.1-SNAPSHOT.jar)
+./mvnw test                   # tests run against in-memory H2 (no DB needed)
+```
+
+On first run with `SEED_ENABLED=true`, the DB is auto-created and seeded with the
+same content the frontend ships, plus an admin user (`ADMIN_EMAIL`/`ADMIN_PASSWORD`).
+
+**Connect the frontend to the backend:** set `frontend/.env.local`:
+```
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+and restart `npm run dev`. The site now reads/writes through Spring Boot.
+
+> Requires Java 17+ (spec target 21) and a reachable Postgres (managed cloud is fine).
+> Docker is optional — `docker compose up --build` runs Postgres + Redis + backend.
+
 ---
 
 ## Git workflow
@@ -250,13 +306,16 @@ Suggested commit prefixes: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`.
 
 ## Roadmap / next milestone
 
-**Backend (Spring Boot)** — Controller/Service/Repository layers, DTO pattern,
-JWT auth, global exception handling, OpenAPI/Swagger. Tables: `users`,
-`contacts`, `consultations`, `services`, `case_studies`, `testimonials`,
-`chat_leads`, `blog_posts`, `site_statistics`.
+**Done:** Spring Boot API (Controller/Service/Repository, DTOs, JWT auth, global
+exception handling, OpenAPI/Swagger, seed data). Tables: `users`, `contacts`,
+`consultations`, `services`, `case_studies`, `testimonials`, `chat_leads`,
+`blog_posts`, `site_statistics`.
 
-**Also planned:** Admin dashboard (role-based: ADMIN/EDITOR), Docker +
-docker-compose, GitHub Actions CI/CD, real OpenAI chat wiring.
-
-**Prerequisites to start backend locally:** install **Java 21** (currently 17)
-and **Docker** (not yet installed).
+**Next:**
+- Boot the backend against a managed Postgres (Neon/Supabase) and point the
+  frontend at it via `NEXT_PUBLIC_API_URL`.
+- Admin dashboard **UI** in the frontend (consuming the existing admin endpoints).
+- GitHub Actions CI/CD.
+- Real OpenAI chat provider (drop-in via the strategy interface on both sides).
+- Optional hardening: bump to **Java 21**, enable **Redis** cache, install
+  **Docker** for the full local stack.

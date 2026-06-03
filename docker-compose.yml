@@ -1,0 +1,43 @@
+# Optional fully-local stack (Postgres + Redis + backend).
+# You're using managed cloud Postgres, so this is here for convenience/later.
+# Usage: docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: visiondigitallab
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/visiondigitallab
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JPA_DDL_AUTO: update
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      JWT_SECRET: change-me-in-prod-this-is-a-dev-only-secret-key-0123456789
+      SEED_ENABLED: "true"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
