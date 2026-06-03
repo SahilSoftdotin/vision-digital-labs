@@ -20,7 +20,8 @@ export interface CaseStudy {
   client: string;
   industry: Industry;
   summary: string;
-  cover: string; // gradient token or image path
+  cover: string; // gradient token used as overlay/fallback
+  image: string; // hero/cover photo URL
   challenge: string;
   solution: string;
   technologies: string[];

@@ -34,6 +34,7 @@ SMB clients in the US, Canada, and Europe.
 | Mock API (Next route handlers) | ✅ Built — frontend runs standalone on it |
 | Backend (Spring Boot) | ✅ Built — REST API, JPA, JWT auth, seed data, Swagger. Needs a Postgres connection to run |
 | Admin endpoints (JWT, role-based) | ✅ Built — leads + content CRUD |
+| Admin dashboard UI (`/admin`) | ✅ Built — login, dashboard, leads views, content CRUD |
 | Docker | ✅ Dockerfile + docker-compose provided (Docker not yet installed locally) |
 | CI-CD | ⏳ Planned |
 | Real AI (OpenAI) chat | ⏳ Interface ready (strategy pattern), provider stubbed both sides |
@@ -164,6 +165,8 @@ Service / Breadcrumb). OG/Twitter images are generated dynamically by
 | `/about` | Static | Story, mission/vision, values, timeline, team, why-us, stats |
 | `/contact` | Static | Validated contact form + success animation |
 | `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | Generated | SEO |
+| `/admin/login` | Static | Admin sign-in (JWT) |
+| `/admin`, `/admin/leads`, `/admin/services`, `/admin/casestudies`, `/admin/testimonials` | Static (client, guarded) | Admin dashboard — noindex, talks to backend admin API |
 
 Global (mounted in `app/layout.tsx`): floating **Book Free Consultation** modal
 and the **AI chat widget**, present on every page.
@@ -311,10 +314,16 @@ exception handling, OpenAPI/Swagger, seed data). Tables: `users`, `contacts`,
 `consultations`, `services`, `case_studies`, `testimonials`, `chat_leads`,
 `blog_posts`, `site_statistics`.
 
+**Done since:** Backend live on Supabase; frontend wired via `NEXT_PUBLIC_API_URL`;
+admin dashboard UI at `/admin` (login + leads + content CRUD); creative logo;
+photo imagery on case-study cards/detail.
+
 **Next:**
-- Boot the backend against a managed Postgres (Neon/Supabase) and point the
-  frontend at it via `NEXT_PUBLIC_API_URL`.
-- Admin dashboard **UI** in the frontend (consuming the existing admin endpoints).
+- **Make content DB-driven:** public content pages (services/case-studies/about/
+  stats) still render from frontend `src/data/*` fixtures, so admin edits change
+  the DB but not the public site yet. Converting those pages to fetch via
+  `lib/api.ts` unifies them (and would add an `image` field to the backend
+  case-study model).
 - GitHub Actions CI/CD.
 - Real OpenAI chat provider (drop-in via the strategy interface on both sides).
 - Optional hardening: bump to **Java 21**, enable **Redis** cache, install

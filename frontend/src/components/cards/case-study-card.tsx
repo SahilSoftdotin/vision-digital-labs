@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { CaseStudy } from "@/lib/types";
@@ -14,17 +15,26 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
         href={`/casestudies/${study.slug}`}
         className="group block h-full overflow-hidden rounded-2xl border border-border bg-panel/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
       >
-        <div
-          className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${study.cover}`}
-        >
-          <div className="absolute inset-0 grid-bg opacity-40" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-3xl font-bold text-white/80 drop-shadow">
-              {study.client}
-            </span>
-          </div>
+        <div className="relative aspect-[16/10] overflow-hidden">
+          {study.image && (
+            <Image
+              src={study.image}
+              alt={`${study.client} — ${study.title}`}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          )}
+          {/* gradient tint + darken for legibility */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${study.cover} mix-blend-overlay`}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg/90 via-bg/20 to-transparent" />
           <span className="absolute left-4 top-4">
-            <Badge className="bg-black/30 backdrop-blur">{study.industry}</Badge>
+            <Badge className="bg-black/40 backdrop-blur">{study.industry}</Badge>
+          </span>
+          <span className="absolute bottom-3 left-4 font-display text-xl font-bold text-white drop-shadow-lg">
+            {study.client}
           </span>
         </div>
 

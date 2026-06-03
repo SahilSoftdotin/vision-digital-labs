@@ -10,6 +10,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Redesigned a clunky patient portal into an accessible, AI-assisted experience that patients actually use.",
     cover: "from-emerald-400/30 to-cyan-500/20",
+    image:
+      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=70",
     challenge:
       "MedFlow's legacy portal had a 22% task-completion rate. Patients struggled to book, reschedule, and find records — driving costly no-shows and call-center load.",
     solution:
@@ -33,6 +35,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Re-engineered a fintech checkout for speed and trust, recovering abandoned revenue at scale.",
     cover: "from-violet-500/30 to-blue-500/20",
+    image:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=70",
     challenge:
       "A slow, multi-step checkout was bleeding conversions. Cart abandonment sat at 71% and PCI concerns blocked new features.",
     solution:
@@ -56,6 +60,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Built a real-time transport management system handling 40k shipments a day.",
     cover: "from-amber-400/30 to-orange-500/20",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=70",
     challenge:
       "CargoLink ran operations on spreadsheets and email. Visibility was poor and scaling internationally was impossible.",
     solution:
@@ -79,6 +85,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Took a property marketplace from idea to funded launch in under a quarter.",
     cover: "from-cyan-400/30 to-teal-500/20",
+    image:
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=70",
     challenge:
       "EstateX needed to validate a two-sided marketplace fast to secure a seed round — with no existing product.",
     solution:
@@ -102,6 +110,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Modernized an LMS with adaptive AI tutoring and a scalable content pipeline.",
     cover: "from-indigo-400/30 to-purple-500/20",
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=70",
     challenge:
       "Scholarly's monolith couldn't scale during peak exam seasons and lacked personalization.",
     solution:
@@ -125,6 +135,8 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Replatformed a DTC brand to headless commerce, doubling site speed.",
     cover: "from-pink-400/30 to-rose-500/20",
+    image:
+      "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=900&q=70",
     challenge:
       "A heavy legacy storefront throttled growth with slow pages and rigid merchandising.",
     solution:

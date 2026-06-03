@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Target, Lightbulb, Clock } from "lucide-react";
 import { caseStudies, getCaseStudy } from "@/data/case-studies";
@@ -61,9 +62,20 @@ export default async function CaseStudyDetailPage({
 
       {/* Hero banner */}
       <section className="relative overflow-hidden pt-28 lg:pt-36">
+        {study.image && (
+          <Image
+            src={study.image}
+            alt={`${study.client} — ${study.title}`}
+            fill
+            priority
+            sizes="100vw"
+            className="-z-20 object-cover opacity-30"
+          />
+        )}
         <div
-          className={`absolute inset-0 -z-10 bg-gradient-to-br ${study.cover} opacity-50`}
+          className={`absolute inset-0 -z-10 bg-gradient-to-br ${study.cover} opacity-40`}
         />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/70 to-bg/30" />
         <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
         <div className="container-x pb-12">
           <Link

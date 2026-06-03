@@ -4,10 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { ConsultationCta } from "@/components/booking/consultation-cta";
-import { ChatWidget } from "@/components/chat/chat-widget";
+import { SiteShell } from "@/components/layout/site-shell";
 import { siteConfig } from "@/lib/site.config";
 import { organizationJsonLd } from "@/lib/seo";
 
@@ -77,11 +74,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <ConsultationCta />
-          <ChatWidget />
+          <SiteShell>{children}</SiteShell>
         </ThemeProvider>
       </body>
     </html>
