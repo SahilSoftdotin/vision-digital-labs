@@ -1,0 +1,55 @@
+# Render Blueprint for the Spring Boot backend.
+# Frontend deploys to Vercel; database is Supabase. See DEPLOYMENT.md.
+#
+# Render auto-builds backend/Dockerfile and redeploys on every push to main.
+# Secrets (sync: false) are entered once in the Render dashboard, never in git.
+services:
+  - type: web
+    name: visiondigitallab-api
+    runtime: docker
+    repo: https://github.com/SahilSoftdotin/vision-digital-labs
+    branch: main
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    region: virginia # closest free region to Supabase us-east-1
+    plan: free
+    healthCheckPath: /actuator/health
+    autoDeploy: true
+    envVars:
+      # --- Database (Supabase) — paste values in the dashboard ---
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: JPA_DDL_AUTO
+        value: update
+
+      # --- Security ---
+      - key: JWT_SECRET
+        generateValue: true # Render generates a strong secret
+      - key: ADMIN_EMAIL
+        value: admin@visiondigitallab.com
+      - key: ADMIN_PASSWORD
+        sync: false # set a strong admin password in the dashboard
+
+      # --- CORS: allow the production frontend origins ---
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://visiondigitallab.com,https://www.visiondigitallab.com
+
+      # --- On-demand ISR revalidation of the Vercel frontend ---
+      - key: REVALIDATE_ENABLED
+        value: "true"
+      - key: REVALIDATE_URL
+        value: https://visiondigitallab.com/api/revalidate
+      - key: REVALIDATE_SECRET
+        sync: false # MUST match the same var set on Vercel
+
+      # --- Seeding (first boot populates the DB) ---
+      - key: SEED_ENABLED
+        value: "true"
+
+      # --- Email notifications (backlog; leave disabled for now) ---
+      - key: NOTIFY_ENABLED
+        value: "false"

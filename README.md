@@ -303,6 +303,15 @@ and restart `npm run dev`. The site now reads/writes through Spring Boot.
 
 ---
 
+## Deployment
+
+Production target (all free tier): **Vercel** (frontend) · **Render** (backend,
+via `render.yaml` + `backend/Dockerfile`) · **Supabase** (Postgres), mapped to
+`visiondigitallab.com` / `api.visiondigitallab.com`. Both hosts auto-deploy on
+`git push` — no GitHub Actions needed. Step-by-step: **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+---
+
 ## Git workflow
 
 Single git repo at the monorepo root (`future-agency/`).

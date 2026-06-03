@@ -15,14 +15,17 @@ public class LeadService {
     private final ContactRepository contactRepo;
     private final ConsultationRepository consultationRepo;
     private final ChatLeadRepository chatLeadRepo;
+    private final NotificationService notifications;
 
     public LeadService(
             ContactRepository contactRepo,
             ConsultationRepository consultationRepo,
-            ChatLeadRepository chatLeadRepo) {
+            ChatLeadRepository chatLeadRepo,
+            NotificationService notifications) {
         this.contactRepo = contactRepo;
         this.consultationRepo = consultationRepo;
         this.chatLeadRepo = chatLeadRepo;
+        this.notifications = notifications;
     }
 
     public Contact createContact(ContactRequest r) {
@@ -36,7 +39,9 @@ public class LeadService {
                         .service(r.service())
                         .details(r.details())
                         .build();
-        return contactRepo.save(c);
+        Contact saved = contactRepo.save(c);
+        notifications.notifyNewContact(saved);
+        return saved;
     }
 
     public Consultation createConsultation(ConsultationRequest r, String source) {
@@ -50,7 +55,9 @@ public class LeadService {
                         .notes(r.notes())
                         .source(source)
                         .build();
-        return consultationRepo.save(c);
+        Consultation saved = consultationRepo.save(c);
+        notifications.notifyNewConsultation(saved);
+        return saved;
     }
 
     public ChatLead createChatLead(ChatDtos.LeadRequest r) {

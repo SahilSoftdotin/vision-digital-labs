@@ -32,8 +32,25 @@ spring:
   cache:
     type: ${CACHE_TYPE:simple} # in-memory ConcurrentMapCache; switch to 'redis' later
 
+  mail:
+    # Gmail SMTP (use a Google App Password, not your normal password).
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 8000
+          timeout: 8000
+          writetimeout: 8000
+
 server:
-  port: ${SERVER_PORT:8080}
+  # Render (and most PaaS) inject PORT; fall back to SERVER_PORT, then 8080 locally.
+  port: ${PORT:${SERVER_PORT:8080}}
   error:
     include-message: always
     include-binding-errors: always
@@ -56,6 +73,11 @@ app:
     enabled: ${SEED_ENABLED:true}
     admin-email: ${ADMIN_EMAIL:admin@visiondigitallab.com}
     admin-password: ${ADMIN_PASSWORD:admin12345}
+  notify:
+    # Email a recipient when a contact/consultation lead arrives.
+    enabled: ${NOTIFY_ENABLED:false}
+    to: ${NOTIFY_TO:}
+    from: ${NOTIFY_FROM:}
 
 springdoc:
   swagger-ui:
@@ -72,6 +94,9 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+  health:
+    mail:
+      enabled: false # don't ping SMTP on every health check
 
 logging:
   level:
