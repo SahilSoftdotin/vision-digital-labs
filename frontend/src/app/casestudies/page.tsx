@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudies } from "@/data/case-studies";
+import { getCaseStudies } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
@@ -13,7 +13,8 @@ export const metadata: Metadata = pageMeta({
   path: "/casestudies",
 });
 
-export default function CaseStudiesPage() {
+export default async function CaseStudiesPage() {
+  const caseStudies = await getCaseStudies();
   return (
     <>
       <PageHeader

@@ -10,6 +10,12 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      # Supabase's pooler closes idle connections; keep maxLifetime under that
+      # and validate with keepalive to avoid "connection has been closed" errors.
+      max-lifetime: ${HIKARI_MAX_LIFETIME:280000}
+      keepalive-time: ${HIKARI_KEEPALIVE:30000}
+      connection-timeout: ${HIKARI_CONN_TIMEOUT:20000}
 
   jpa:
     hibernate:
@@ -41,6 +47,11 @@ app:
     issuer: vision-digital-labs
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  revalidate:
+    # On-demand ISR revalidation of the Next.js frontend after content edits.
+    enabled: ${REVALIDATE_ENABLED:false}
+    url: ${REVALIDATE_URL:}
+    secret: ${REVALIDATE_SECRET:}
   seed:
     enabled: ${SEED_ENABLED:true}
     admin-email: ${ADMIN_EMAIL:admin@visiondigitallab.com}

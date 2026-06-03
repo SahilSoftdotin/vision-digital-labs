@@ -30,6 +30,7 @@ public final class EntityMapper {
                 c.getIndustry(),
                 c.getSummary(),
                 c.getCover(),
+                c.getImage(),
                 c.getChallenge(),
                 c.getSolution(),
                 List.copyOf(c.getTechnologies()),

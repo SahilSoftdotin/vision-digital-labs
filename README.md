@@ -35,12 +35,15 @@ SMB clients in the US, Canada, and Europe.
 | Backend (Spring Boot) | ✅ Built — REST API, JPA, JWT auth, seed data, Swagger. Needs a Postgres connection to run |
 | Admin endpoints (JWT, role-based) | ✅ Built — leads + content CRUD |
 | Admin dashboard UI (`/admin`) | ✅ Built — login, dashboard, leads views, content CRUD |
+| Content delivery | ✅ DB-driven via **ISR + on-demand revalidation** — public pages fetch from the API, are statically cached, and regenerate when admin edits content |
 | Docker | ✅ Dockerfile + docker-compose provided (Docker not yet installed locally) |
 | CI-CD | ⏳ Planned |
 | Real AI (OpenAI) chat | ⏳ Interface ready (strategy pattern), provider stubbed both sides |
 
-Frontend: **34 routes** build clean. Backend: compiles, packages to a runnable jar, tests green (H2).
-Local prerequisites still open: **Java 21** (using 17 for now), **Docker**, and a **managed Postgres** (Neon/Supabase) connection string to boot the backend.
+Frontend: **41 routes** build clean (content pages prerendered with 1h ISR). Backend:
+compiles, packages to a runnable jar, tests green (H2). Verified end-to-end live on
+Supabase: an admin content edit revalidates and appears on the public site within
+one stale-while-revalidate cycle (~seconds).
 
 ---
 
@@ -102,7 +105,7 @@ future-agency/
 | `src/components/forms/` | ContactForm |
 | `src/components/ui/` | Primitives: button, card, badge, dialog, input/select/textarea, dynamic-icon |
 | `src/lib/` | Cross-cutting logic (see below) |
-| `src/data/` | In-repo content fixtures (will be replaced by API responses) |
+| `src/data/` | In-repo content fixtures — now the **fallback** when the backend is unreachable; the DB is the source of truth |
 
 ---
 
@@ -112,16 +115,27 @@ future-agency/
 explicit `"use client"` components (anything using Framer Motion, hooks, 3D, or
 forms). Page shells, metadata, and data shaping stay on the server.
 
-**Data flow (swap-ready).** UI never calls fixtures directly for dynamic data —
-it goes through a typed client:
+**Data flow.** Two paths, both pointed at the backend via `NEXT_PUBLIC_API_URL`:
 
 ```
-Component → lib/api.ts (apiGet/apiPost) → /api/v1/* (Next route handler) → src/data/* fixture
+Content (read):  Server Component → lib/content.ts (fetch, ISR-tagged) → backend /api/v1/* → Postgres
+                 (falls back to src/data/* fixtures if the backend is unreachable)
+Actions (write): Client Component → lib/api.ts (apiPost) → backend /api/v1/* (contact, chat, booking)
 ```
 
-`lib/api.ts` builds its base URL from `NEXT_PUBLIC_API_URL`. Leave it empty to
-use the built-in mock handlers; point it at the Spring Boot service later and
-**no component changes are needed** — the route contracts match the future DTOs.
+**Content is DB-driven with ISR.** `lib/content.ts` fetches public content
+(`services`, `casestudies`, `testimonials`, `stats`) server-side with
+`next: { revalidate, tags }`, so pages are **statically cached** yet refresh on a
+timer. Each fetch is tagged; if the backend is down, it falls back to the local
+fixtures so the site never breaks and local dev works without a backend.
+
+**On-demand revalidation.** When an admin edits content, the backend
+(`RevalidationService`) POSTs to the frontend `/api/revalidate` (shared secret),
+which calls `revalidateTag(tag, "max")` to purge the affected pages — they
+regenerate from the DB within one stale-while-revalidate cycle. No redeploy.
+
+`lib/api.ts` builds its base URL from `NEXT_PUBLIC_API_URL`. Leave it empty to use
+the built-in mock route handlers; set it to the Spring Boot URL for the live stack.
 
 **Validation is shared.** `lib/schemas.ts` (Zod) is imported by both the client
 forms (instant field validation) and the server route handlers (request
@@ -221,10 +235,11 @@ curl -X POST http://localhost:3000/api/v1/chat/message \
 ## Data & content
 
 Content fixtures live in `frontend/src/data/`:
-`services.ts`, `case-studies.ts`, `testimonials.ts`, `stats.ts`.
-These are the seed for the future database tables and are currently served by the
-mock API. Note: **NovaPay** and other client names in fixtures are fictional
-sample clients, not the agency.
+`services.ts`, `case-studies.ts`, `testimonials.ts`, `stats.ts`. They seed the
+database (`DataSeeder`) and serve as the **fallback** if the backend is
+unreachable — but the live site reads from the DB via `lib/content.ts`. Note:
+**NovaPay** and other client names in fixtures are fictional sample clients, not
+the agency.
 
 ---
 
@@ -316,14 +331,11 @@ exception handling, OpenAPI/Swagger, seed data). Tables: `users`, `contacts`,
 
 **Done since:** Backend live on Supabase; frontend wired via `NEXT_PUBLIC_API_URL`;
 admin dashboard UI at `/admin` (login + leads + content CRUD); creative logo;
-photo imagery on case-study cards/detail.
+photo imagery on case-study cards/detail; **content made DB-driven via ISR +
+on-demand revalidation** (admin edits now appear on the public site without a
+redeploy); backend case-study `image` field added.
 
 **Next:**
-- **Make content DB-driven:** public content pages (services/case-studies/about/
-  stats) still render from frontend `src/data/*` fixtures, so admin edits change
-  the DB but not the public site yet. Converting those pages to fetch via
-  `lib/api.ts` unifies them (and would add an `image` field to the backend
-  case-study model).
 - GitHub Actions CI/CD.
 - Real OpenAI chat provider (drop-in via the strategy interface on both sides).
 - Optional hardening: bump to **Java 21**, enable **Redis** cache, install

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { services } from "@/data/services";
+import { getServices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
@@ -14,7 +14,8 @@ export const metadata: Metadata = pageMeta({
   path: "/services",
 });
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
   return (
     <>
       <PageHeader

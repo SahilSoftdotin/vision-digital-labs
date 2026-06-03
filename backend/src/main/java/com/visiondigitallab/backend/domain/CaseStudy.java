@@ -34,9 +34,13 @@ public class CaseStudy {
     @Column(nullable = false, length = 600)
     private String summary;
 
-    /** Tailwind gradient token or image path used by the frontend cover. */
+    /** Tailwind gradient token used as the cover overlay/fallback. */
     @Column(nullable = false)
     private String cover;
+
+    /** Hero/cover photo URL. */
+    @Column(length = 500)
+    private String image;
 
     @Column(nullable = false, length = 2000)
     private String challenge;

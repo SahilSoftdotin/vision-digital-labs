@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { services } from "@/data/services";
+import { services as fallback } from "@/data/services";
+import type { Service } from "@/lib/types";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ServiceCard } from "@/components/cards/service-card";
 import { Button } from "@/components/ui/button";
 import { staggerContainer, viewportOnce } from "@/lib/motion";
 
-export function ServicesOverview() {
+export function ServicesOverview({ services = fallback }: { services?: Service[] }) {
   return (
     <Section id="services">
       <SectionHeading

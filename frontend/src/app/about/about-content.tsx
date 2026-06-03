@@ -11,7 +11,8 @@ import {
   Sparkles,
   Handshake,
 } from "lucide-react";
-import { aboutStats } from "@/data/stats";
+import { aboutStats as fallbackStats } from "@/data/stats";
+import type { SiteStat } from "@/lib/types";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { CountUp } from "@/components/interactive/count-up";
 import { staggerContainer, fadeUp, viewportOnce } from "@/lib/motion";
@@ -46,7 +47,11 @@ const WHY = [
   "Async-friendly across US, CA & EU timezones",
 ];
 
-export function AboutContent() {
+export function AboutContent({
+  stats = fallbackStats,
+}: {
+  stats?: SiteStat[];
+}) {
   return (
     <>
       {/* Stats */}
@@ -58,7 +63,7 @@ export function AboutContent() {
           viewport={viewportOnce}
           className="grid gap-6 rounded-3xl border border-border-strong bg-panel/40 p-8 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {aboutStats.map((s) => (
+          {stats.map((s) => (
             <motion.div key={s.label} variants={fadeUp} className="text-center">
               <p className="font-display text-4xl font-bold text-gradient">
                 <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} />

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
-import { services, getService } from "@/data/services";
-import { getCaseStudy } from "@/data/case-studies";
+import { getServices, getService, getCaseStudy } from "@/lib/content";
 import { pageMeta, serviceJsonLd } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
@@ -12,7 +11,8 @@ import { DynamicIcon } from "@/components/ui/dynamic-icon";
 import { CaseStudyCard } from "@/components/cards/case-study-card";
 import { CtaBand } from "@/components/sections/cta-band";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const services = await getServices();
   return services.map((s) => ({ slug: s.slug }));
 }
 
@@ -22,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) return pageMeta({ title: "Service" });
   return pageMeta({
     title: service.title,
@@ -37,12 +37,12 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) notFound();
 
-  const related = service.relatedCaseStudies
-    .map(getCaseStudy)
-    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+  const related = (
+    await Promise.all(service.relatedCaseStudies.map((s) => getCaseStudy(s)))
+  ).filter((c): c is NonNullable<typeof c> => Boolean(c));
 
   return (
     <>

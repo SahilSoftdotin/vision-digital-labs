@@ -59,10 +59,42 @@ public class DataSeeder implements CommandLineRunner {
         if (cases.count() == 0) seedCaseStudies();
         if (testimonials.count() == 0) seedTestimonials();
         if (stats.count() == 0) seedStats();
+        backfillCaseStudyImages();
     }
 
     private static List<String> list(String... v) {
         return new ArrayList<>(List.of(v));
+    }
+
+    private static final String UNSPLASH =
+            "https://images.unsplash.com/photo-%s?auto=format&fit=crop&w=900&q=70";
+
+    /** slug → Unsplash photo id, used for both fresh seeds and backfill. */
+    private static final java.util.Map<String, String> CASE_IMAGES =
+            java.util.Map.of(
+                    "medflow-patient-portal", "1576091160550-2173dba999ef",
+                    "novapay-checkout", "1556742049-0cfed4f6a45d",
+                    "cargolink-tms", "1586528116311-ad8dd3c8310d",
+                    "estatex-marketplace", "1560518883-ce09059eeffa",
+                    "scholarly-lms", "1523240795612-9a054b0db644",
+                    "shopwave-commerce", "1556742502-ec7c0e9f34b1");
+
+    private static String img(String slug) {
+        String id = CASE_IMAGES.get(slug);
+        return id == null ? null : String.format(UNSPLASH, id);
+    }
+
+    /** Populate image on existing rows that predate the image column. Idempotent. */
+    private void backfillCaseStudyImages() {
+        int patched = 0;
+        for (CaseStudy c : cases.findAll()) {
+            if ((c.getImage() == null || c.getImage().isBlank()) && img(c.getSlug()) != null) {
+                c.setImage(img(c.getSlug()));
+                cases.save(c);
+                patched++;
+            }
+        }
+        if (patched > 0) log.info("Backfilled images on {} case studies", patched);
     }
 
     private void seedAdmin() {
@@ -201,6 +233,7 @@ public class DataSeeder implements CommandLineRunner {
                         .summary(
                                 "Redesigned a clunky patient portal into an accessible, AI-assisted experience that patients actually use.")
                         .cover("from-emerald-400/30 to-cyan-500/20")
+                        .image(img("medflow-patient-portal"))
                         .challenge(
                                 "MedFlow's legacy portal had a 22% task-completion rate. Patients struggled to book, reschedule, and find records — driving costly no-shows and call-center load.")
                         .solution(
@@ -226,6 +259,7 @@ public class DataSeeder implements CommandLineRunner {
                         .summary(
                                 "Re-engineered a fintech checkout for speed and trust, recovering abandoned revenue at scale.")
                         .cover("from-violet-500/30 to-blue-500/20")
+                        .image(img("novapay-checkout"))
                         .challenge(
                                 "A slow, multi-step checkout was bleeding conversions. Cart abandonment sat at 71% and PCI concerns blocked new features.")
                         .solution(
@@ -250,6 +284,7 @@ public class DataSeeder implements CommandLineRunner {
                         .industry("Logistics")
                         .summary("Built a real-time transport management system handling 40k shipments a day.")
                         .cover("from-amber-400/30 to-orange-500/20")
+                        .image(img("cargolink-tms"))
                         .challenge(
                                 "CargoLink ran operations on spreadsheets and email. Visibility was poor and scaling internationally was impossible.")
                         .solution(
@@ -275,6 +310,7 @@ public class DataSeeder implements CommandLineRunner {
                         .industry("Real Estate")
                         .summary("Took a property marketplace from idea to funded launch in under a quarter.")
                         .cover("from-cyan-400/30 to-teal-500/20")
+                        .image(img("estatex-marketplace"))
                         .challenge(
                                 "EstateX needed to validate a two-sided marketplace fast to secure a seed round — with no existing product.")
                         .solution(
@@ -299,6 +335,7 @@ public class DataSeeder implements CommandLineRunner {
                         .industry("Education")
                         .summary("Modernized an LMS with adaptive AI tutoring and a scalable content pipeline.")
                         .cover("from-indigo-400/30 to-purple-500/20")
+                        .image(img("scholarly-lms"))
                         .challenge(
                                 "Scholarly's monolith couldn't scale during peak exam seasons and lacked personalization.")
                         .solution(
@@ -323,6 +360,7 @@ public class DataSeeder implements CommandLineRunner {
                         .industry("E-Commerce")
                         .summary("Replatformed a DTC brand to headless commerce, doubling site speed.")
                         .cover("from-pink-400/30 to-rose-500/20")
+                        .image(img("shopwave-commerce"))
                         .challenge(
                                 "A heavy legacy storefront throttled growth with slow pages and rigid merchandising.")
                         .solution(

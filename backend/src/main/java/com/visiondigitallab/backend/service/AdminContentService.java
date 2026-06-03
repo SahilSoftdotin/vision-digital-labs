@@ -18,14 +18,17 @@ public class AdminContentService {
     private final ServiceRepository serviceRepo;
     private final CaseStudyRepository caseRepo;
     private final TestimonialRepository testimonialRepo;
+    private final RevalidationService revalidation;
 
     public AdminContentService(
             ServiceRepository serviceRepo,
             CaseStudyRepository caseRepo,
-            TestimonialRepository testimonialRepo) {
+            TestimonialRepository testimonialRepo,
+            RevalidationService revalidation) {
         this.serviceRepo = serviceRepo;
         this.caseRepo = caseRepo;
         this.testimonialRepo = testimonialRepo;
+        this.revalidation = revalidation;
     }
 
     // ---- Services ----------------------------------------------------------
@@ -47,13 +50,16 @@ public class AdminContentService {
         e.setFeatures(new ArrayList<>(dto.features()));
         e.setDeliverables(new ArrayList<>(dto.deliverables()));
         e.setRelatedCaseStudies(new ArrayList<>(dto.relatedCaseStudies()));
-        return EntityMapper.toDto(serviceRepo.save(e));
+        ServiceDto saved = EntityMapper.toDto(serviceRepo.save(e));
+        revalidation.revalidate("services");
+        return saved;
     }
 
     @CacheEvict(value = "services", allEntries = true)
     public void deleteService(Long id) {
         if (!serviceRepo.existsById(id)) throw new ResourceNotFoundException("Service " + id);
         serviceRepo.deleteById(id);
+        revalidation.revalidate("services");
     }
 
     // ---- Case studies ------------------------------------------------------
@@ -71,6 +77,7 @@ public class AdminContentService {
         e.setIndustry(dto.industry());
         e.setSummary(dto.summary());
         e.setCover(dto.cover());
+        e.setImage(dto.image());
         e.setChallenge(dto.challenge());
         e.setSolution(dto.solution());
         e.setTimeline(dto.timeline());
@@ -80,12 +87,15 @@ public class AdminContentService {
         var results = new ArrayList<CaseResult>();
         dto.results().forEach(r -> results.add(new CaseResult(r.label(), r.value())));
         e.setResults(results);
-        return EntityMapper.toDto(caseRepo.save(e));
+        CaseStudyDto saved = EntityMapper.toDto(caseRepo.save(e));
+        revalidation.revalidate("casestudies");
+        return saved;
     }
 
     public void deleteCaseStudy(Long id) {
         if (!caseRepo.existsById(id)) throw new ResourceNotFoundException("Case study " + id);
         caseRepo.deleteById(id);
+        revalidation.revalidate("casestudies");
     }
 
     // ---- Testimonials ------------------------------------------------------
@@ -104,7 +114,9 @@ public class AdminContentService {
         e.setCompany(dto.company());
         e.setQuote(dto.quote());
         e.setRating(dto.rating());
-        return EntityMapper.toDto(testimonialRepo.save(e));
+        TestimonialDto saved = EntityMapper.toDto(testimonialRepo.save(e));
+        revalidation.revalidate("testimonials");
+        return saved;
     }
 
     @CacheEvict(value = "testimonials", allEntries = true)
@@ -112,5 +124,6 @@ public class AdminContentService {
         if (!testimonialRepo.existsById(id))
             throw new ResourceNotFoundException("Testimonial " + id);
         testimonialRepo.deleteById(id);
+        revalidation.revalidate("testimonials");
     }
 }

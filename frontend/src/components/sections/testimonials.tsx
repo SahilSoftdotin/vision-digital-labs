@@ -2,11 +2,16 @@
 
 import { motion } from "framer-motion";
 import { Quote, Star } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+import { testimonials as fallback } from "@/data/testimonials";
+import type { Testimonial } from "@/lib/types";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { staggerContainer, fadeUp, viewportOnce } from "@/lib/motion";
 
-export function Testimonials() {
+export function Testimonials({
+  testimonials = fallback,
+}: {
+  testimonials?: Testimonial[];
+}) {
   return (
     <Section>
       <SectionHeading

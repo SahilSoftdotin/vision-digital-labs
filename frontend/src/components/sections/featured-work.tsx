@@ -3,14 +3,15 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { caseStudies } from "@/data/case-studies";
+import { caseStudies as fallback } from "@/data/case-studies";
+import type { CaseStudy } from "@/lib/types";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { CaseStudyCard } from "@/components/cards/case-study-card";
 import { Button } from "@/components/ui/button";
 import { staggerContainer, viewportOnce } from "@/lib/motion";
 
-export function FeaturedWork() {
-  const featured = caseStudies.filter((c) => c.featured).slice(0, 3);
+export function FeaturedWork({ studies }: { studies?: CaseStudy[] }) {
+  const featured = (studies ?? fallback.filter((c) => c.featured)).slice(0, 3);
 
   return (
     <Section className="bg-bg-2/30">

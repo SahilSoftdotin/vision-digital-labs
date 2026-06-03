@@ -7,18 +7,31 @@ import { Process } from "@/components/sections/process";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Statistics } from "@/components/sections/statistics";
 import { CtaBand } from "@/components/sections/cta-band";
+import {
+  getServices,
+  getFeaturedCaseStudies,
+  getTestimonials,
+  getStats,
+} from "@/lib/content";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [services, featured, testimonials, stats] = await Promise.all([
+    getServices(),
+    getFeaturedCaseStudies(),
+    getTestimonials(),
+    getStats("home"),
+  ]);
+
   return (
     <>
       <Hero />
       <ClientLogos />
-      <ServicesOverview />
-      <FeaturedWork />
+      <ServicesOverview services={services} />
+      <FeaturedWork studies={featured} />
       <Industries />
       <Process />
-      <Statistics />
-      <Testimonials />
+      <Statistics stats={stats} />
+      <Testimonials testimonials={testimonials} />
       <CtaBand />
     </>
   );

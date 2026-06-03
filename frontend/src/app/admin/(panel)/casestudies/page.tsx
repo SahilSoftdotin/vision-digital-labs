@@ -17,19 +17,19 @@ import { Input, Textarea, Label, Select } from "@/components/ui/input";
 interface Result { label: string; value: string }
 interface CaseStudy {
   id: number; slug: string; title: string; client: string; industry: string;
-  summary: string; cover: string; challenge: string; solution: string;
+  summary: string; cover: string; image: string; challenge: string; solution: string;
   technologies: string[]; timeline: string; results: Result[]; tags: string[]; featured: boolean;
 }
 interface Draft {
   id: number | null; slug: string; title: string; client: string; industry: string;
-  summary: string; cover: string; challenge: string; solution: string;
+  summary: string; cover: string; image: string; challenge: string; solution: string;
   technologies: string; timeline: string; results: string; tags: string; featured: boolean;
 }
 
 const INDUSTRIES = ["Healthcare", "Fintech", "Logistics", "E-Commerce", "Real Estate", "Education"];
 const empty: Draft = {
   id: null, slug: "", title: "", client: "", industry: "Fintech", summary: "",
-  cover: "from-violet-500/30 to-blue-500/20", challenge: "", solution: "",
+  cover: "from-violet-500/30 to-blue-500/20", image: "", challenge: "", solution: "",
   technologies: "", timeline: "", results: "", tags: "", featured: false,
 };
 
@@ -61,7 +61,7 @@ export default function CaseStudiesAdmin() {
     try {
       const body = {
         id: draft.id, slug: draft.slug, title: draft.title, client: draft.client,
-        industry: draft.industry, summary: draft.summary, cover: draft.cover,
+        industry: draft.industry, summary: draft.summary, cover: draft.cover, image: draft.image,
         challenge: draft.challenge, solution: draft.solution, timeline: draft.timeline,
         featured: draft.featured,
         technologies: linesToArray(draft.technologies),
@@ -133,6 +133,7 @@ export default function CaseStudiesAdmin() {
               <F label="Cover (tailwind gradient)"><Input value={draft.cover} onChange={(e) => setDraft({ ...draft, cover: e.target.value })} /></F>
               <F label="Timeline"><Input value={draft.timeline} onChange={(e) => setDraft({ ...draft, timeline: e.target.value })} /></F>
             </div>
+            <F label="Image URL"><Input value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://images.unsplash.com/..." /></F>
             <F label="Challenge"><Textarea value={draft.challenge} onChange={(e) => setDraft({ ...draft, challenge: e.target.value })} /></F>
             <F label="Solution"><Textarea value={draft.solution} onChange={(e) => setDraft({ ...draft, solution: e.target.value })} /></F>
             <div className="grid gap-4 sm:grid-cols-2">

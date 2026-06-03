@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Target, Lightbulb, Clock } from "lucide-react";
-import { caseStudies, getCaseStudy } from "@/data/case-studies";
+import { getCaseStudies, getCaseStudy } from "@/lib/content";
 import { pageMeta, breadcrumbJsonLd } from "@/lib/seo";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { CountUp } from "@/components/interactive/count-up";
 import { CtaBand } from "@/components/sections/cta-band";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const caseStudies = await getCaseStudies();
   return caseStudies.map((c) => ({ slug: c.slug }));
 }
 
@@ -21,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const study = getCaseStudy(slug);
+  const study = await getCaseStudy(slug);
   if (!study) return pageMeta({ title: "Case Study" });
   return pageMeta({
     title: study.title,
@@ -43,7 +44,7 @@ export default async function CaseStudyDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const study = getCaseStudy(slug);
+  const study = await getCaseStudy(slug);
   if (!study) notFound();
 
   return (

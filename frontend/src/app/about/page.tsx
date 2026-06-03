@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/seo";
+import { getStats } from "@/lib/content";
 import { PageHeader } from "@/components/layout/page-header";
 import { AboutContent } from "./about-content";
 import { CtaBand } from "@/components/sections/cta-band";
@@ -11,7 +12,8 @@ export const metadata: Metadata = pageMeta({
   path: "/about",
 });
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const stats = await getStats("about");
   return (
     <>
       <PageHeader
@@ -24,7 +26,7 @@ export default function AboutPage() {
         }
         description="Remote-first, outcome-obsessed, and trusted by ambitious teams across 15+ countries."
       />
-      <AboutContent />
+      <AboutContent stats={stats} />
       <CtaBand />
     </>
   );

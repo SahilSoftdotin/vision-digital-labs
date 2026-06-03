@@ -11,6 +11,7 @@ public record CaseStudyDto(
         String industry,
         String summary,
         String cover,
+        String image,
         String challenge,
         String solution,
         List<String> technologies,
