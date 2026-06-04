@@ -98,15 +98,26 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedAdmin() {
-        if (users.existsByEmail(adminEmail)) return;
-        users.save(
-                User.builder()
-                        .name("Site Admin")
-                        .email(adminEmail)
-                        .password(encoder.encode(adminPassword))
-                        .role(Role.ADMIN)
-                        .build());
-        log.info("Seeded admin user: {}", adminEmail);
+        User existing = users.findByEmail(adminEmail).orElse(null);
+        if (existing == null) {
+            users.save(
+                    User.builder()
+                            .name("Site Admin")
+                            .email(adminEmail)
+                            .password(encoder.encode(adminPassword))
+                            .role(Role.ADMIN)
+                            .build());
+            log.info("Seeded admin user: {}", adminEmail);
+            return;
+        }
+        // Keep the configured ADMIN_PASSWORD authoritative across deploys.
+        // Idempotent: only rehashes when the stored password no longer matches.
+        if (!encoder.matches(adminPassword, existing.getPassword())) {
+            existing.setPassword(encoder.encode(adminPassword));
+            existing.setRole(Role.ADMIN);
+            users.save(existing);
+            log.info("Synced admin password from ADMIN_PASSWORD for {}", adminEmail);
+        }
     }
 
     private void seedServices() {
