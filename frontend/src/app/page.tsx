@@ -4,9 +4,11 @@ import { FeaturedWork } from "@/components/sections/featured-work";
 import { ServicesOverview } from "@/components/sections/services-overview";
 import { SeoSpotlight } from "@/components/sections/seo-spotlight";
 import { Industries } from "@/components/sections/industries";
+import { IntegrationPartners } from "@/components/sections/integration-partners";
 import { Process } from "@/components/sections/process";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Statistics } from "@/components/sections/statistics";
+import { Compliance } from "@/components/sections/compliance";
 import { CtaBand } from "@/components/sections/cta-band";
 import {
   getServices,
@@ -34,9 +36,11 @@ export default async function HomePage() {
       <ServicesOverview services={coreServices} />
       <FeaturedWork studies={featured} />
       <Industries />
+      <IntegrationPartners />
       <Process />
       <Statistics stats={stats} />
       <Testimonials testimonials={testimonials} />
+      <Compliance />
       <CtaBand />
     </>
   );

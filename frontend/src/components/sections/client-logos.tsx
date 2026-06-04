@@ -1,14 +1,11 @@
 import { Marquee } from "@/components/interactive/marquee";
 
 const CLIENTS = [
-  "NovaPay",
-  "MedFlow",
-  "CargoLink",
-  "EstateX",
-  "Scholarly",
-  "ShopWave",
-  "Vertex",
-  "Lumen",
+  "Aspen Dental",
+  "Envision Healthcare",
+  "AutoNation",
+  "Compass Real Estate",
+  "Mr. Rooter Plumbing",
 ];
 
 export function ClientLogos() {
@@ -16,7 +13,7 @@ export function ClientLogos() {
     <section className="border-y border-border bg-bg-2/30 py-10">
       <div className="container-x">
         <p className="mb-6 text-center text-xs font-medium uppercase tracking-[0.2em] text-fg-subtle">
-          Powering products for teams worldwide
+          Trusted by leading brands across industries
         </p>
         <Marquee>
           {CLIENTS.map((c) => (
