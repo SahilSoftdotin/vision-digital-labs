@@ -30,8 +30,8 @@ export default async function HomePage() {
     <>
       <Hero />
       <ClientLogos />
-      <ServicesOverview services={coreServices} />
       <SeoSpotlight />
+      <ServicesOverview services={coreServices} />
       <FeaturedWork studies={featured} />
       <Industries />
       <Process />

@@ -7,7 +7,6 @@ import {
   Heart,
   ShieldCheck,
   Gauge,
-  Users,
   Sparkles,
   Handshake,
 } from "lucide-react";
@@ -29,13 +28,6 @@ const TIMELINE = [
   { year: "2019", title: "Enterprise era", desc: "Expanded into custom platforms for fintech and healthcare." },
   { year: "2022", title: "AI practice", desc: "Launched our AI integration practice as LLMs reshaped products." },
   { year: "2025", title: "Global team", desc: "Now a remote-first team serving clients across 15+ countries." },
-];
-
-const TEAM = [
-  { name: "Alex Rivera", role: "Founder & CEO" },
-  { name: "Kanika", role: "Head of Design" },
-  { name: "Sahil Arora", role: "Head of Engineering" },
-  { name: "Nikhil", role: "Head of AI" },
 ];
 
 const WHY = [
@@ -189,42 +181,6 @@ export function AboutContent({
             ))}
           </motion.div>
         </div>
-      </Section>
-
-      {/* Team */}
-      <Section>
-        <SectionHeading
-          eyebrow="Leadership"
-          title={
-            <>
-              The people steering <span className="text-gradient">the work</span>
-            </>
-          }
-        />
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportOnce}
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {TEAM.map((m) => (
-            <motion.div
-              key={m.name}
-              variants={fadeUp}
-              className="group rounded-2xl border border-border bg-panel/50 p-6 text-center transition-colors hover:border-primary/40"
-            >
-              <span className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-br from-primary to-secondary font-display text-xl font-bold text-[#04121a]">
-                {m.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </span>
-              <h3 className="mt-4 font-display font-semibold">{m.name}</h3>
-              <p className="text-sm text-fg-subtle">{m.role}</p>
-            </motion.div>
-          ))}
-        </motion.div>
       </Section>
 
       {/* Why choose us */}

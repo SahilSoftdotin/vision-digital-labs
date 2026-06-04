@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import { siteConfig } from "@/lib/site.config";
 import { Logo } from "./logo";
-import { XIcon, LinkedInIcon, GitHubIcon } from "./social-icons";
+import { FacebookIcon, InstagramIcon } from "./social-icons";
 
 const columns = [
   {
@@ -38,20 +38,21 @@ export function Footer() {
             </p>
             <div className="mt-5 flex gap-2">
               {[
-                { icon: XIcon, href: siteConfig.socials.twitter, label: "X" },
-                { icon: LinkedInIcon, href: siteConfig.socials.linkedin, label: "LinkedIn" },
-                { icon: GitHubIcon, href: siteConfig.socials.github, label: "GitHub" },
-              ].map(({ icon: Icon, href, label }) => (
-                <a
+                { icon: FacebookIcon, label: "Facebook" },
+                { icon: InstagramIcon, label: "Instagram" },
+              ].map(({ icon: Icon, label }) => (
+                <span
                   key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={label}
-                  className="grid size-9 place-items-center rounded-full border border-border-strong text-fg-muted transition-colors hover:border-primary/50 hover:text-fg"
+                  role="img"
+                  aria-label={`${label} — coming soon`}
+                  title="Coming soon"
+                  className="group relative grid size-9 cursor-default place-items-center rounded-full border border-border-strong text-fg-muted"
                 >
                   <Icon className="size-4" />
-                </a>
+                  <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border-strong bg-bg-2 px-2 py-1 text-[11px] text-fg-muted opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    Coming soon
+                  </span>
+                </span>
               ))}
             </div>
           </div>
