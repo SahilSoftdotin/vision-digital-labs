@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, HeartPulse, Cloud, Megaphone, CreditCard, Plus } from "lucide-react";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { LogoChip } from "@/components/cards/logo-chip";
 import { staggerContainer, fadeUp, viewportOnce } from "@/lib/motion";
 
 const PARTNERS = [
-  { name: "Birdeye", icon: Star },
-  { name: "Dentrix", icon: HeartPulse },
-  { name: "Salesforce", icon: Cloud },
-  { name: "HubSpot", icon: Megaphone },
-  { name: "Stripe", icon: CreditCard },
-  { name: "& many more", icon: Plus },
+  { name: "Birdeye", mono: "B", tint: "from-amber-400 to-yellow-400" },
+  { name: "Dentrix", mono: "D", tint: "from-teal-400 to-cyan-400" },
+  { name: "Salesforce", mono: "SF", tint: "from-sky-400 to-blue-400" },
+  { name: "HubSpot", mono: "HS", tint: "from-orange-400 to-rose-400" },
+  { name: "Stripe", mono: "S", tint: "from-violet-400 to-fuchsia-400" },
+  { name: "& many more", mono: "+", tint: "from-primary to-secondary" },
 ];
 
 export function IntegrationPartners() {
@@ -32,20 +32,11 @@ export function IntegrationPartners() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3"
+        className="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-3"
       >
-        {PARTNERS.map(({ name, icon: Icon }) => (
-          <motion.div
-            key={name}
-            variants={fadeUp}
-            className="group flex items-center gap-3 rounded-2xl border border-border bg-panel/40 px-5 py-4 transition-colors hover:border-primary/40"
-          >
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15 text-primary-2 ring-1 ring-border-strong transition-transform group-hover:scale-110">
-              <Icon className="size-5" />
-            </span>
-            <span className="font-display text-base font-semibold text-fg">
-              {name}
-            </span>
+        {PARTNERS.map((p) => (
+          <motion.div key={p.name} variants={fadeUp}>
+            <LogoChip name={p.name} mono={p.mono} tint={p.tint} />
           </motion.div>
         ))}
       </motion.div>
