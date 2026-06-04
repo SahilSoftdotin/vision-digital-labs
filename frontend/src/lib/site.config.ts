@@ -16,12 +16,9 @@ export const siteConfig = {
   location: "Remote-first · US · Canada · Europe",
   locale: "en_US",
 
-  socials: {
-    twitter: "https://twitter.com/visiondigitallab",
-    linkedin: "https://linkedin.com/company/visiondigitallab",
-    github: "https://github.com/visiondigitallab",
-    dribbble: "https://dribbble.com/visiondigitallab",
-  },
+  // No public social profiles yet (Facebook/Instagram "coming soon").
+  // Add real profile URLs here when live — they feed Organization JSON-LD (sameAs).
+  socials: {} as Record<string, string>,
 
   nav: [
     { label: "Services", href: "/services" },
