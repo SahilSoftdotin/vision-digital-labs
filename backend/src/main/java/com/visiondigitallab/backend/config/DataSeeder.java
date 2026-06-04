@@ -60,6 +60,7 @@ public class DataSeeder implements CommandLineRunner {
         if (testimonials.count() == 0) seedTestimonials();
         if (stats.count() == 0) seedStats();
         backfillCaseStudyImages();
+        backfillServices();
     }
 
     private static List<String> list(String... v) {
@@ -224,9 +225,44 @@ public class DataSeeder implements CommandLineRunner {
                                                 "Ongoing product engineering"))
                                 .relatedCaseStudies(list("estatex-marketplace", "scholarly-lms"))
                                 .displayOrder(6)
-                                .build());
+                                .build(),
+                        seoService());
         services.saveAll(s);
         log.info("Seeded {} services", s.size());
+    }
+
+    /** SEO & Social service — also used by the backfill for existing databases. */
+    private static ServiceEntity seoService() {
+        return ServiceEntity.builder()
+                .slug("seo-social")
+                .title("SEO & Social")
+                .icon("TrendingUp")
+                .tagline("Get found everywhere — rank higher, grow social, convert more.")
+                .description(
+                        "We grow your organic visibility and social presence with technical SEO, content, and hands-on social media management — turning search and social into compounding, measurable growth.")
+                .features(
+                        list(
+                                "Technical SEO",
+                                "Content & On-Page",
+                                "Social Media Management",
+                                "Analytics & Reporting"))
+                .deliverables(
+                        list(
+                                "Technical SEO audit & fixes (Core Web Vitals, schema, crawlability)",
+                                "Keyword strategy & on-page content optimization",
+                                "Social media management & content calendars",
+                                "Monthly rankings, traffic & growth reporting"))
+                .relatedCaseStudies(list("shopwave-commerce", "novapay-checkout"))
+                .displayOrder(7)
+                .build();
+    }
+
+    /** Insert services added after the initial seed (idempotent, for existing DBs). */
+    private void backfillServices() {
+        if (services.findBySlug("seo-social").isEmpty()) {
+            services.save(seoService());
+            log.info("Backfilled service: seo-social");
+        }
     }
 
     private static CaseResult r(String label, String value) {

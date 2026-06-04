@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/hero";
 import { ClientLogos } from "@/components/sections/client-logos";
 import { FeaturedWork } from "@/components/sections/featured-work";
 import { ServicesOverview } from "@/components/sections/services-overview";
+import { SeoSpotlight } from "@/components/sections/seo-spotlight";
 import { Industries } from "@/components/sections/industries";
 import { Process } from "@/components/sections/process";
 import { Testimonials } from "@/components/sections/testimonials";
@@ -22,11 +23,15 @@ export default async function HomePage() {
     getStats("home"),
   ]);
 
+  // SEO & Social gets its own spotlight below, so keep it out of the 6-card grid.
+  const coreServices = services.filter((s) => s.slug !== "seo-social");
+
   return (
     <>
       <Hero />
       <ClientLogos />
-      <ServicesOverview services={services} />
+      <ServicesOverview services={coreServices} />
+      <SeoSpotlight />
       <FeaturedWork studies={featured} />
       <Industries />
       <Process />

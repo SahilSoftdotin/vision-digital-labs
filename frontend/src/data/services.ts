@@ -103,6 +103,28 @@ export const services: Service[] = [
     ],
     relatedCaseStudies: ["estatex-marketplace", "scholarly-lms"],
   },
+  {
+    id: 7,
+    slug: "seo-social",
+    title: "SEO & Social",
+    icon: "TrendingUp",
+    tagline: "Get found everywhere — rank higher, grow social, convert more.",
+    description:
+      "We grow your organic visibility and social presence with technical SEO, content, and hands-on social media management — turning search and social into compounding, measurable growth.",
+    features: [
+      "Technical SEO",
+      "Content & On-Page",
+      "Social Media Management",
+      "Analytics & Reporting",
+    ],
+    deliverables: [
+      "Technical SEO audit & fixes (Core Web Vitals, schema, crawlability)",
+      "Keyword strategy & on-page content optimization",
+      "Social media management & content calendars",
+      "Monthly rankings, traffic & growth reporting",
+    ],
+    relatedCaseStudies: ["shopwave-commerce", "novapay-checkout"],
+  },
 ];
 
 export const getService = (slug: string) =>
