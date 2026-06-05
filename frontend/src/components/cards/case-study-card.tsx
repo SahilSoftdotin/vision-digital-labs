@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -7,6 +8,13 @@ import { ArrowUpRight } from "lucide-react";
 import type { CaseStudy } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { fadeUp } from "@/lib/motion";
+
+// Client logos for the case studies that have one (others fall back to the name only).
+const CLIENT_LOGOS: Record<string, string> = {
+  "novapay-checkout": "/casestudies/novapay.png",
+  "medflow-patient-portal": "/casestudies/medflow.png",
+  "cargolink-tms": "/casestudies/cargolink.jpg",
+};
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
@@ -33,6 +41,15 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
           <span className="absolute left-4 top-4">
             <Badge className="bg-black/40 backdrop-blur">{study.industry}</Badge>
           </span>
+          {CLIENT_LOGOS[study.slug] && (
+            <span className="absolute right-4 top-4 flex h-9 items-center rounded-lg bg-white/95 px-2.5 shadow-md ring-1 ring-black/5 backdrop-blur">
+              <img
+                src={CLIENT_LOGOS[study.slug]}
+                alt={`${study.client} logo`}
+                className="h-5 w-auto"
+              />
+            </span>
+          )}
           <span className="absolute bottom-3 left-4 font-display text-xl font-bold text-white drop-shadow-lg">
             {study.client}
           </span>

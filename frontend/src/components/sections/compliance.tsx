@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import {
   HeartPulse,
+  Accessibility,
   Globe,
   Scale,
   ShieldCheck,
@@ -16,6 +17,11 @@ const BADGES = [
     icon: HeartPulse,
     title: "HIPAA-ready",
     desc: "HIPAA-ready development processes for healthcare & dental clients.",
+  },
+  {
+    icon: Accessibility,
+    title: "ADA compliant",
+    desc: "ADA-compliant, WCAG 2.2 AA accessible websites built in from day one.",
   },
   {
     icon: Globe,
@@ -57,7 +63,7 @@ export function Compliance() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
+        className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         {BADGES.map(({ icon: Icon, title, desc }) => (
           <motion.div
