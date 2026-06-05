@@ -12,7 +12,7 @@ export const siteConfig = {
   url: "https://visiondigitallab.com",
   ogImage: "/og.png",
   email: "hello@visiondigitallab.com",
-  phone: "+1 (555) 012-3456",
+  phone: "+1 (320) 344-5433",
   location: "Remote-first · US · Canada · Europe",
   locale: "en_US",
 
