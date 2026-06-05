@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -76,6 +77,7 @@ export default function RootLayout({
         >
           <SiteShell>{children}</SiteShell>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
