@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site.config";
 import { Logo } from "./logo";
 import { FacebookIcon, InstagramIcon } from "./social-icons";
@@ -86,6 +86,15 @@ export function Footer() {
                 <Mail className="size-4 text-primary-2" />
                 <a href={`mailto:${siteConfig.email}`} className="hover:text-fg">
                   {siteConfig.email}
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="size-4 text-primary-2" />
+                <a
+                  href={`tel:${siteConfig.phone.replace(/[^+\d]/g, "")}`}
+                  className="hover:text-fg"
+                >
+                  {siteConfig.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
