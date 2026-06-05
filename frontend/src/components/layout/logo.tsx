@@ -1,11 +1,25 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site.config";
 
 export function Logo({ className }: { className?: string }) {
+  const pathname = usePathname();
+
+  // Already on home → just scroll to the top; on any other route the Link goes home.
+  const handleClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <Link
       href="/"
+      onClick={handleClick}
       className={cn("group flex items-center gap-2.5", className)}
       aria-label={`${siteConfig.name} home`}
     >
