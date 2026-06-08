@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site.config";
 import { Logo } from "./logo";
@@ -112,6 +113,14 @@ export function Footer() {
           <p>Designed &amp; engineered for ambitious teams.</p>
         </div>
       </div>
+
+      {/* Sienna — website accessibility widget (floating toolbar: text size,
+          contrast, links highlight, dyslexia font, etc.) */}
+      <Script
+        id="sienna-accessibility"
+        src="https://cdn.jsdelivr.net/npm/sienna-accessibility/dist/sienna-accessibility.umd.js"
+        strategy="afterInteractive"
+      />
     </footer>
   );
 }

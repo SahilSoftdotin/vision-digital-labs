@@ -122,6 +122,23 @@ body::before {
   color: var(--fg);
 }
 
+/* Accessibility: a clearly visible keyboard-focus ring on the dark theme */
+:focus-visible {
+  outline: 2px solid var(--primary-2);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Accessibility: honor users who ask for less motion (vestibular safety) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {

@@ -18,8 +18,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only z-[100] rounded-lg bg-primary px-4 py-2 font-medium text-[#04121a] shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Skip to main content
+      </a>
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1">
+        {children}
+      </main>
       <Footer />
       <ConsultationCta />
       <ChatWidget />
