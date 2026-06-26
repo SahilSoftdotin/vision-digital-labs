@@ -49,6 +49,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
+    logo: `${siteConfig.url}${siteConfig.logo}`,
     description: siteConfig.description,
     email: siteConfig.email,
     sameAs: Object.values(siteConfig.socials),

@@ -11,6 +11,7 @@ export const siteConfig = {
     "Vision Digital Lab redesigns, modernizes and builds high-performance digital products — web apps, AI integrations, SaaS and mobile — for ambitious businesses across the US, Canada and Europe.",
   url: "https://visiondigitallab.com",
   ogImage: "/og.png",
+  logo: "/assets/logo.png",
   email: "hello@visiondigitallab.com",
   phone: "+1 (320) 344-5433",
   location: "Remote-first · US · Canada · Europe",
