@@ -7,14 +7,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
   const now = new Date();
 
-  const staticRoutes = ["", "/services", "/casestudies", "/about", "/contact"].map(
-    (path) => ({
-      url: `${base}${path}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: path === "" ? 1 : 0.8,
-    }),
-  );
+  const staticRoutes = [
+    "",
+    "/plugins",
+    "/services",
+    "/casestudies",
+    "/about",
+    "/contact",
+  ].map((path) => ({
+    url: `${base}${path}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: path === "" || path === "/plugins" ? 1 : 0.8,
+  }));
 
   const serviceRoutes = services.map((s) => ({
     url: `${base}/services/${s.slug}`,

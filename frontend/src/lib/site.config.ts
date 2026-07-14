@@ -13,7 +13,7 @@ export const siteConfig = {
   ogImage: "/og.png",
   logo: "/assets/logo.png",
   email: "hello@visiondigitallab.com",
-  phone: "+1 (320) 344-5433",
+  phone: "+1 (917) 920-2808",
   location: "Remote-first · US · Canada · Europe",
   locale: "en_US",
 
@@ -22,6 +22,7 @@ export const siteConfig = {
   socials: {} as Record<string, string>,
 
   nav: [
+    { label: "AI Plugins", href: "/plugins" },
     { label: "Services", href: "/services" },
     { label: "Work", href: "/casestudies" },
     { label: "About", href: "/about" },

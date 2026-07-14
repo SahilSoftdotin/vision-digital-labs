@@ -13,6 +13,32 @@ export interface Service {
   relatedCaseStudies: string[]; // case study slugs
 }
 
+/** An embeddable AI plugin in the "AI Front Office" suite. */
+export interface Plugin {
+  id: number;
+  slug: string;
+  name: string;
+  /** lucide-react icon name */
+  icon: string;
+  /** accent hex used for the card's glow/ring */
+  accent: string;
+  tagline: string;
+  /** one-line elevator pitch shown on the card */
+  summary: string;
+  /** the pain it kills, in the owner's words */
+  problem: string;
+  /** bullet list of what it does */
+  highlights: string[];
+  /** the business outcome — why it's worth paying for */
+  outcome: string;
+  /** 3 short "how it works" steps */
+  how: string[];
+  setup: string;
+  monthly: string;
+  /** optional ribbon: "Flagship", "Free scan", … */
+  badge?: string;
+}
+
 export interface CaseStudy {
   id: number;
   slug: string;
