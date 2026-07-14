@@ -23,39 +23,61 @@ export const CONTENT_TAGS = {
 
 const REVALIDATE_SECONDS = 3600; // time-based safety net; on-demand refreshes sooner
 
+// Hard wall-clock cap on any single content load. Without it, a slow/cold/down
+// backend makes the request hang until the build worker's 60s page-generation
+// limit and fails the whole deploy. We race the request against this timeout and
+// fall back to the local fixtures; ISR fills in real content on the first
+// runtime request once the backend is reachable.
+//
+// NOTE: deliberately a Promise.race timeout, NOT a fetch `signal`. Passing a
+// caller signal marks the fetch uncacheable in Next.js, which would silently
+// disable ISR + on-demand tag revalidation (/api/revalidate). This keeps the
+// caching config intact while still bounding the time.
+const FETCH_TIMEOUT_MS = 4000;
+
+class ContentTimeout extends Error {}
+
+function withTimeout<T>(work: Promise<T>, fallback: T): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new ContentTimeout()), FETCH_TIMEOUT_MS);
+  });
+  return Promise.race([work, timeout])
+    .catch(() => fallback)
+    .finally(() => clearTimeout(timer));
+}
+
 async function fetchContent<T>(
   path: string,
   tag: string,
   fallback: T,
 ): Promise<T> {
-  try {
+  const load = async (): Promise<T> => {
     const res = await fetch(`${apiBase}${path}`, {
       next: { revalidate: REVALIDATE_SECONDS, tags: [tag] },
       headers: { Accept: "application/json" },
     });
     if (!res.ok) throw new Error(`${path} -> ${res.status}`);
     return (await res.json()) as T;
-  } catch {
-    return fallback;
-  }
+  };
+  return withTimeout(load(), fallback);
 }
 
 export function getServices() {
   return fetchContent<Service[]>("/services", CONTENT_TAGS.services, fxServices);
 }
 
-export async function getService(slug: string) {
+export function getService(slug: string) {
   const fallback = fxServices.find((s) => s.slug === slug);
-  try {
+  const load = async (): Promise<Service | undefined> => {
     const res = await fetch(`${apiBase}/services/${slug}`, {
       next: { revalidate: REVALIDATE_SECONDS, tags: [CONTENT_TAGS.services] },
       headers: { Accept: "application/json" },
     });
     if (!res.ok) return res.status === 404 ? undefined : fallback;
     return (await res.json()) as Service;
-  } catch {
-    return fallback;
-  }
+  };
+  return withTimeout(load(), fallback);
 }
 
 export function getCaseStudies() {
@@ -70,18 +92,17 @@ export async function getFeaturedCaseStudies() {
   return (await getCaseStudies()).filter((c) => c.featured);
 }
 
-export async function getCaseStudy(slug: string) {
+export function getCaseStudy(slug: string) {
   const fallback = fxCaseStudies.find((c) => c.slug === slug);
-  try {
+  const load = async (): Promise<CaseStudy | undefined> => {
     const res = await fetch(`${apiBase}/casestudies/${slug}`, {
       next: { revalidate: REVALIDATE_SECONDS, tags: [CONTENT_TAGS.caseStudies] },
       headers: { Accept: "application/json" },
     });
     if (!res.ok) return res.status === 404 ? undefined : fallback;
     return (await res.json()) as CaseStudy;
-  } catch {
-    return fallback;
-  }
+  };
+  return withTimeout(load(), fallback);
 }
 
 export function getTestimonials() {
