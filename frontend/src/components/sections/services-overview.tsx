@@ -44,6 +44,17 @@ export function ServicesOverview({ services = fallback }: { services?: Service[]
           </Link>
         </Button>
       </div>
+
+      <p className="mt-6 text-center text-sm text-fg-muted">
+        Working with a clinic?{" "}
+        <Link
+          href="/security"
+          className="text-primary-2 underline-offset-4 hover:underline"
+        >
+          How we handle patient data
+        </Link>
+        .
+      </p>
     </Section>
   );
 }

@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/hero";
 import { AiPlugins } from "@/components/sections/ai-plugins";
+import { VisionOneTeaser } from "@/components/sections/visionone-teaser";
 import { ClientLogos } from "@/components/sections/client-logos";
 import { FeaturedWork } from "@/components/sections/featured-work";
 import { ServicesOverview } from "@/components/sections/services-overview";
@@ -33,6 +34,7 @@ export default async function HomePage() {
     <>
       <Hero />
       <AiPlugins />
+      <VisionOneTeaser />
       <ClientLogos />
       <SeoSpotlight />
       <ServicesOverview services={coreServices} />

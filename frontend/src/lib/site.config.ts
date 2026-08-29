@@ -22,6 +22,7 @@ export const siteConfig = {
   socials: {} as Record<string, string>,
 
   nav: [
+    { label: "VisionOne", href: "/visionone" },
     { label: "AI Plugins", href: "/plugins" },
     { label: "Services", href: "/services" },
     { label: "Work", href: "/casestudies" },

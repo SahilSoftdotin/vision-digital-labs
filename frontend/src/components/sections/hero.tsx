@@ -61,8 +61,10 @@ export function Hero() {
               variants={fadeUp}
               className="mt-6 max-w-xl text-lg leading-relaxed text-fg-muted"
             >
-              We redesign, modernize and build high-performance digital products
-              for ambitious businesses across the US, Canada and Europe.
+              We build and run the growth engine behind appointment-based
+              businesses — the site, the ads, the calls, the reviews and the
+              content — then show you which of them earned the booking. Most of
+              our work is with clinics.
             </motion.p>
 
             <motion.div

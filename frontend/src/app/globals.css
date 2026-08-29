@@ -28,6 +28,15 @@
   --fg-subtle: #8b94a7;
 
   --radius: 0.9rem;
+
+  /* Chart series. Aliases of the brand tokens — no new hues, so the charts
+     stay on-palette. The .light block below mixes the same tokens darker,
+     because the neon values are unreadable on a white ground. */
+  --chart-1: var(--primary-2);
+  --chart-2: var(--primary);
+  --chart-3: var(--secondary);
+  --chart-4: var(--accent);
+  --chart-5: var(--fg-subtle);
 }
 
 /* Light mode overrides */
@@ -40,6 +49,14 @@
   --fg: #0a0f1c;
   --fg-muted: #334155;
   --fg-subtle: #64748b;
+
+  /* Same brand hues, mixed toward the ink already used for on-primary text,
+     so chart lines clear 3:1 against a white ground (WCAG 1.4.11). */
+  --chart-1: color-mix(in srgb, var(--primary-2) 55%, #04121a);
+  --chart-2: color-mix(in srgb, var(--primary) 55%, #04121a);
+  --chart-3: color-mix(in srgb, var(--secondary) 78%, #04121a);
+  --chart-4: color-mix(in srgb, var(--accent) 55%, #04121a);
+  --chart-5: var(--fg-subtle);
 }
 
 @theme inline {

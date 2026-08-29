@@ -4,6 +4,7 @@ import { pageMeta } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
 import { ServicesGrid } from "./services-grid";
+import { GrowthPackage } from "./growth-package";
 import { Process } from "@/components/sections/process";
 import { CtaBand } from "@/components/sections/cta-band";
 
@@ -28,6 +29,7 @@ export default async function ServicesPage() {
         }
         description="Six core practices that take you from a dated site to a future-ready digital product."
       />
+      <GrowthPackage />
       <Section className="pt-4">
         <ServicesGrid services={services} />
       </Section>

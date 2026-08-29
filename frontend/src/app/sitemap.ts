@@ -9,16 +9,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes = [
     "",
+    "/visionone",
     "/plugins",
     "/services",
     "/casestudies",
     "/about",
     "/contact",
+    "/security",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
-    priority: path === "" || path === "/plugins" ? 1 : 0.8,
+    priority:
+      path === "" || path === "/visionone" || path === "/plugins" ? 1 : 0.8,
   }));
 
   const serviceRoutes = services.map((s) => ({

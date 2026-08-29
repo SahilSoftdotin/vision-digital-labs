@@ -37,7 +37,9 @@ export function Navbar() {
       <nav className="container-x flex h-16 items-center justify-between gap-4 lg:h-18">
         <Logo />
 
-        <div className="hidden items-center gap-1 md:flex">
+        {/* Six nav items no longer fit beside the logo + CTA at 768px, so the
+            desktop nav starts at lg and the drawer covers 768–1023px. */}
+        <div className="hidden items-center gap-1 lg:flex">
           {siteConfig.nav.map((item) => {
             const active = pathname === item.href;
             return (
@@ -71,7 +73,7 @@ export function Navbar() {
             type="button"
             aria-label="Toggle menu"
             onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center rounded-full border border-border-strong text-fg md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-border-strong text-fg lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -84,7 +86,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-border bg-bg/95 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-b border-border bg-bg/95 backdrop-blur-xl lg:hidden"
           >
             <div className="container-x flex flex-col gap-1 py-4">
               {siteConfig.nav.map((item) => (
