@@ -14,6 +14,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { pageMeta, serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { siteConfig } from "@/lib/site.config";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
@@ -147,6 +148,21 @@ export default function VisionOnePage() {
             <Link href="#dashboard">See the dashboard</Link>
           </Button>
         </div>
+
+        {/*
+          Existing clients sign in on the portal's own subdomain, never here. No email or password
+          field belongs on this page: this site loads HubSpot, and a credential form sharing that
+          origin would put the session within reach of it and of every tag added later.
+        */}
+        <p className="mt-5 text-center text-sm text-fg-muted">
+          Already a client?{" "}
+          <a
+            href={siteConfig.portalUrl}
+            className="font-medium text-fg underline underline-offset-4 hover:opacity-80"
+          >
+            Log in to VisionOne
+          </a>
+        </p>
       </PageHeader>
 
       {/* the problem */}

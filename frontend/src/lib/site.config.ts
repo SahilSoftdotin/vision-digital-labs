@@ -21,6 +21,11 @@ export const siteConfig = {
   // Add real profile URLs here when live — they feed Organization JSON-LD (sameAs).
   socials: {} as Record<string, string>,
 
+  // The VisionOne client portal. A separate subdomain rather than a path here on purpose: an
+  // origin is scheme, host and port, so visiondigitallab.com/app would put the portal's session
+  // token within reach of every marketing tag on this site, HubSpot included.
+  portalUrl: "https://app.visiondigitallab.com",
+
   nav: [
     { label: "VisionOne", href: "/visionone" },
     { label: "AI Plugins", href: "/plugins" },

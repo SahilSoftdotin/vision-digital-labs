@@ -66,6 +66,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          {/* Existing clients. A plain anchor, not next/link: this leaves the site. */}
+          <a
+            href={siteConfig.portalUrl}
+            className="hidden rounded-full px-4 py-2 text-sm font-medium text-fg-muted transition-colors hover:text-fg sm:inline-flex"
+          >
+            Log In
+          </a>
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href="/contact">Start a Project</Link>
           </Button>
@@ -98,6 +105,12 @@ export function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              <a
+                href={siteConfig.portalUrl}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-fg-muted hover:bg-white/[0.05] hover:text-fg"
+              >
+                Log In
+              </a>
               <Button asChild className="mt-2">
                 <Link href="/contact">Start a Project</Link>
               </Button>
