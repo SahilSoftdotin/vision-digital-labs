@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 
@@ -8,15 +8,32 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { siteConfig } from "@/lib/site.config";
 import { organizationJsonLd } from "@/lib/seo";
 
-const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+// Self-hosted rather than fetched from Google at build time.
+//
+// next/font/google downloads font files during the build, which makes every deploy depend on
+// Google being reachable at that moment. One deploy already failed that way - a transient fetch
+// failure for Space Grotesk took down the whole build, including the deploy that was carrying the
+// Resend configuration. A font is not worth a failed release.
+//
+// These are the variable builds of the latin subset, so one file covers every weight: 48 KB, 22 KB
+// and 40 KB. All three are SIL Open Font License, which permits bundling.
+const inter = localFont({
+  src: "./fonts/Inter-Variable.woff2",
+  variable: "--font-sans",
+  weight: "100 900",
+  display: "swap",
 });
-const jetbrains = JetBrains_Mono({
+const spaceGrotesk = localFont({
+  src: "./fonts/SpaceGrotesk-Variable.woff2",
+  variable: "--font-display",
+  weight: "300 700",
+  display: "swap",
+});
+const jetbrains = localFont({
+  src: "./fonts/JetBrainsMono-Variable.woff2",
   variable: "--font-mono",
-  subsets: ["latin"],
+  weight: "100 800",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
